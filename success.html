@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You're In! - Hearth</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --accent-blue: #4A90E2;
+            --accent-orange: #F5A623;
+            --accent-red: #E85D75;
+            --accent-green: #2ECC71;
+            --highlight-blue: rgba(74, 144, 226, 0.1);
+            --highlight-orange: rgba(245, 166, 35, 0.1);
+            --highlight-red: rgba(232, 93, 117, 0.1);
+            --highlight-green: rgba(46, 204, 113, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --highlight-blue: rgba(74, 144, 226, 0.2);
+            --highlight-orange: rgba(245, 166, 35, 0.2);
+            --highlight-red: rgba(232, 93, 117, 0.2);
+            --highlight-green: rgba(46, 204, 113, 0.2);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--bg-secondary);
+            border: none;
+            padding: 12px 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 20px;
+            transition: transform 0.2s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        /* Header/Nav */
+        nav {
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* Success Hero */
+        .success-hero {
+            padding: 80px 40px;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .success-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: bounceIn 0.6s ease-out;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .success-hero h1 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--accent-green), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .success-hero p {
+            font-size: 20px;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+        }
+
+        /* Feature Sections */
+        section {
+            padding: 80px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 42px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .highlight-blue {
+            background: var(--highlight-blue);
+            padding: 4px 12px;
+            border-radius: 8px;
+            color: var(--accent-blue);
+        }
+
+        .highlight-orange {
+            background: var(--highlight-orange);
+            padding: 4px 12px;
+            border-radius: 8px;
+            color: var(--accent-orange);
+        }
+
+        .highlight-red {
+            background: var(--highlight-red);
+            padding: 4px 12px;
+            border-radius: 8px;
+            color: var(--accent-red);
+        }
+
+        .highlight-green {
+            background: var(--highlight-green);
+            padding: 4px 12px;
+            border-radius: 8px;
+            color: var(--accent-green);
+        }
+
+        /* Feature Cards */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            background: var(--bg-secondary);
+            padding: 40px;
+            border-radius: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(74, 144, 226, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        /* Two Column Layout */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+            margin-top: 40px;
+        }
+
+        .column-content h3 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+
+        .column-content ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .column-content li {
+            padding: 15px 0;
+            padding-left: 35px;
+            position: relative;
+            font-size: 18px;
+            color: var(--text-secondary);
+        }
+
+        .column-content li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--accent-green);
+            font-weight: 700;
+            font-size: 24px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #9B59B6, var(--accent-blue), #2ECC71);
+            padding: 80px 40px;
+            text-align: center;
+            border-radius: 30px;
+            margin: 60px auto;
+            max-width: 900px;
+            color: white;
+        }
+
+        .cta-section h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .social-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .success-hero h1 {
+                font-size: 36px;
+            }
+
+            .section-title {
+                font-size: 32px;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .two-column {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            nav {
+                padding: 20px;
+            }
+
+            .theme-toggle {
+                top: 10px;
+                right: 10px;
+            }
+
+            .cta-section {
+                margin: 60px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">☀️</button>
+
+    <nav>
+        <div class="logo">Hearth</div>
+    </nav>
+
+    <section class="success-hero">
+        <div class="success-icon">🎉</div>
+        <h1>You're on the Waitlist!</h1>
+        <p>
+            Thanks for joining! We'll notify you as soon as Hearth launches. In the meantime, here's what you can look forward to...
+        </p>
+    </section>
+
+    <section>
+        <h2 class="section-title">
+            Track <span class="highlight-blue">Everything</span>
+        </h2>
+        <p class="section-subtitle">Your complete kitchen inventory, automatically organized</p>
+        
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🥫</div>
+                <h3>Pantry</h3>
+                <p>All your dry goods, spices, canned items, and staples tracked in one place.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🥬</div>
+                <h3>Fridge</h3>
+                <p>Fresh produce, dairy, meats, and leftovers with expiration tracking.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">❄️</div>
+                <h3>Freezer</h3>
+                <p>Frozen goods, meal prep, and long-term storage all accounted for.</p>
+            </div>
+        </div>
+    </section>
+
+    <section style="background: var(--bg-secondary);">
+        <h2 class="section-title">
+            Your <span class="highlight-orange">Recipe Collection</span>
+        </h2>
+        <p class="section-subtitle">Build a cookbook that's uniquely yours</p>
+        
+        <div class="two-column">
+            <div class="column-content">
+                <div class="feature-icon">👵</div>
+                <h3>Family Recipes</h3>
+                <p>Save treasured family recipes passed down through generations. Your grandma's secret lasagna? It's safe with Hearth.</p>
+            </div>
+            <div class="column-content">
+                <div class="feature-icon">✨</div>
+                <h3>Generated Recipes</h3>
+                <p>AI-powered recipes created just for you, based on what you have and what you love.</p>
+            </div>
+        </div>
+        <div class="two-column" style="margin-top: 30px;">
+            <div class="column-content">
+                <div class="feature-icon">📱</div>
+                <h3>Imported Recipes</h3>
+                <p>Found a great recipe online? Import it instantly and Hearth will check if you have the ingredients.</p>
+            </div>
+            <div class="column-content">
+                <div class="feature-icon">📖</div>
+                <h3>Your Personal Cookbook</h3>
+                <p>All your recipes in one place, searchable, organized, and ready when you need them.</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="section-title">
+            <span class="highlight-red">Meal Planning</span> Made Easy
+        </h2>
+        <p class="section-subtitle">Whether it's tonight or the whole week, we've got you covered</p>
+        
+        <div class="two-column">
+            <div class="column-content">
+                <h3>Not sure what to eat?</h3>
+                <ul>
+                    <li>Select items from your inventory</li>
+                    <li>Generate meal ideas instantly</li>
+                    <li>Get step-by-step instructions</li>
+                    <li>Use what you have, waste nothing</li>
+                </ul>
+            </div>
+            <div class="column-content">
+                <h3>Need to plan the week?</h3>
+                <ul>
+                    <li>Create a full weekly meal plan</li>
+                    <li>Schedule breakfast, lunch, and dinner</li>
+                    <li>Auto-generate shopping lists</li>
+                    <li>Prep ahead with confidence</li>
+                </ul>
+            </div>
+        </div>
+        <div class="two-column" style="margin-top: 30px;">
+            <div class="column-content">
+                <h3>Got picky eaters?</h3>
+                <ul>
+                    <li>Set preferences for each family member</li>
+                    <li>Filter out ingredients they don't like</li>
+                    <li>Find meals everyone will enjoy</li>
+                    <li>Accommodate multiple dietary needs</li>
+                </ul>
+            </div>
+            <div class="column-content">
+                <h3>You can plan it.</h3>
+                <ul>
+                    <li>Flexible scheduling that adapts to you</li>
+                    <li>Swap meals with one tap</li>
+                    <li>Adjust portions automatically</li>
+                    <li>Your way, every time</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section style="background: var(--bg-secondary);">
+        <h2 class="section-title">
+            Personalized <span class="highlight-green">Just for You</span>
+        </h2>
+        <p class="section-subtitle">Hearth adapts to your life, not the other way around</p>
+        
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🥜</div>
+                <h3>Allergies & Restrictions</h3>
+                <p>Tell us what to avoid and we'll never suggest it. Peanut allergy? Gluten-free? We remember.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">❤️</div>
+                <h3>Dietary Preferences</h3>
+                <p>Diabetic-friendly, cardiac diet, low-carb, vegan—Hearth tailors every recipe to your health needs.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🍳</div>
+                <h3>Your Appliances</h3>
+                <p>Got an air fryer? Instant Pot? Sous vide? We'll suggest recipes that match your kitchen tools.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="cta-section">
+        <h2>We Can't Wait to Cook With You</h2>
+        <p>
+            You'll be the first to know when Hearth launches. Get ready to transform the way you cook!
+        </p>
+        <div class="social-links">
+            <a href="/" class="social-link">← Back to Home</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Hearth. Cook what you have.</p>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        
+        // Check for saved theme preference or default to dark mode
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        html.setAttribute('data-theme', currentTheme);
+        themeToggle.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
+
+        themeToggle.addEventListener('click', () => {
+            const theme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+        });
+    </script>
+</body>
+</html>
