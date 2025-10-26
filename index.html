@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hearth - Cook What You Have</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --accent-blue: #4A90E2;
+            --accent-orange: #F5A623;
+            --accent-red: #E85D75;
+            --highlight-blue: rgba(74, 144, 226, 0.1);
+            --highlight-orange: rgba(245, 166, 35, 0.1);
+            --highlight-red: rgba(232, 93, 117, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --highlight-blue: rgba(74, 144, 226, 0.2);
+            --highlight-orange: rgba(245, 166, 35, 0.2);
+            --highlight-red: rgba(232, 93, 117, 0.2);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--bg-secondary);
+            border: none;
+            padding: 12px 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 20px;
+            transition: transform 0.2s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        /* Header/Nav */
+        nav {
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 100px 40px;
+            text-align: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 64px;
+            font-weight: 800;
+            margin-bottom: 30px;
+            line-height: 1.2;
+        }
+
+        .highlight-blue {
+            background: var(--highlight-blue);
+            padding: 4px 12px;
+            border-radius: 8px;
+            color: var(--accent-blue);
+        }
+
+        .highlight-orange {
+            background: var(--highlight-orange);
+            padding: 4px 12px;
+            border-radius: 8px;
+            color: var(--accent-orange);
+        }
+
+        .highlight-red {
+            background: var(--highlight-red);
+            padding: 4px 12px;
+            border-radius: 8px;
+            color: var(--accent-red);
+        }
+
+        .hero p {
+            font-size: 24px;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #9B59B6, var(--accent-blue), #2ECC71);
+            color: white;
+            padding: 18px 48px;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(74, 144, 226, 0.6), 0 0 30px rgba(74, 144, 226, 0.4);
+            filter: brightness(1.1);
+        }
+
+        /* Sections */
+        section {
+            padding: 80px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: var(--bg-primary);
+            padding: 80px 40px;
+            margin: 0;
+            max-width: 100%;
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stats-intro {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .stats-intro h2 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .stats-intro p {
+            font-size: 20px;
+            color: var(--text-secondary);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 30px 20px;
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(232, 93, 117, 0.5), 0 0 30px rgba(232, 93, 117, 0.3);
+        }
+
+        .stat-number {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .stat-description {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .section-title {
+            font-size: 48px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        /* Adapts to You Section */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            background: var(--bg-secondary);
+            padding: 40px;
+            border-radius: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(74, 144, 226, 0.4), 0 0 30px rgba(74, 144, 226, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        /* How It Works */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 50px;
+            margin-top: 60px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .step {
+            text-align: center;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--accent-blue), #9B59B6);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0 auto 20px;
+        }
+
+        .step h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .step p {
+            color: var(--text-secondary);
+        }
+
+        /* Email Signup */
+        .signup-section {
+            background: var(--bg-secondary);
+            padding: 80px 40px;
+            text-align: center;
+            border-radius: 30px;
+            margin: 60px auto;
+            max-width: 900px;
+        }
+
+        .signup-form {
+            max-width: 500px;
+            margin: 40px auto 0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 18px 24px;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            font-size: 16px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+        }
+
+        .form-input.name-input {
+            box-shadow: 0 0 0 2px var(--highlight-orange);
+            border-color: var(--accent-orange);
+        }
+
+        .form-input.name-input:focus {
+            box-shadow: 0 0 0 3px var(--highlight-orange);
+            border-color: var(--accent-orange);
+        }
+
+        .form-input.email-input {
+            box-shadow: 0 0 0 2px var(--highlight-red);
+            border-color: var(--accent-red);
+        }
+
+        .form-input.email-input:focus {
+            box-shadow: 0 0 0 3px var(--highlight-red);
+            border-color: var(--accent-red);
+        }
+
+        .submit-button {
+            width: 100%;
+            background: linear-gradient(135deg, #9B59B6, var(--accent-blue), #2ECC71);
+            color: white;
+            padding: 18px;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(74, 144, 226, 0.6), 0 0 30px rgba(74, 144, 226, 0.4);
+            filter: brightness(1.1);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 40px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            .section-title {
+                font-size: 36px;
+            }
+
+            nav {
+                padding: 20px;
+            }
+
+            .theme-toggle {
+                top: 10px;
+                right: 10px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .steps {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .stats-intro h2 {
+                font-size: 32px;
+            }
+
+            .stat-number {
+                font-size: 48px;
+            }
+
+            .signup-section {
+                margin: 60px 20px;
+            }
+        }
+
+        @media (max-width: 1200px) and (min-width: 769px) {
+            .features {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">☀️</button>
+
+    <nav>
+        <div class="logo">Hearth</div>
+    </nav>
+
+    <section class="hero">
+        <h1>
+            Cook <span class="highlight-blue">What You Have</span>
+        </h1>
+        <p>
+            Stop wasting food. Start making <span class="highlight-orange">delicious meals</span> with the ingredients already in your kitchen.
+        </p>
+        <p style="font-weight: 700; margin-top: 20px;">
+            Hearth automatically tracks your inventory and updates after every meal.
+        </p>
+        <button class="cta-button" onclick="document.getElementById('signup').scrollIntoView({behavior: 'smooth'})">
+            Join the Waitlist
+        </button>
+    </section>
+
+    <div class="stats-section">
+        <div class="stats-container">
+            <div class="stats-intro">
+                <h2>The Food Waste Crisis</h2>
+                <p>Every year, millions of tons of food—and billions of dollars—go to waste</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">$1,800</div>
+                    <div class="stat-label">Wasted per household</div>
+                    <div class="stat-description">annually on unused food</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">30%</div>
+                    <div class="stat-label">Of groceries</div>
+                    <div class="stat-description">thrown away unused</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">238 lbs</div>
+                    <div class="stat-label">Food waste</div>
+                    <div class="stat-description">per person each year</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">8-10%</div>
+                    <div class="stat-label">Global emissions</div>
+                    <div class="stat-description">from food waste</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section>
+        <h2 class="section-title">
+            Hearth <span class="highlight-orange">Adapts to You</span>
+        </h2>
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">🥗</div>
+                <h3>Your Dietary Preferences & Cuisines</h3>
+                <p>Whether you're diabetic-friendly, following a cardiac diet, or craving Armenian flavors, Hearth remembers your preferences and personalizes every recipe.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📦</div>
+                <h3>Automated Inventory Management</h3>
+                <p>Your kitchen inventory updates automatically after every meal. Never guess what you have—Hearth tracks it all for you.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📖</div>
+                <h3>Your Recipes</h3>
+                <p>Save your favorite recipes and build a personalized cookbook that grows with you over time.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Your Lifestyle</h3>
+                <p>The app conforms to you, you don't conform to the app. Your meals are personal, recipes personal to you.</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="section-title">
+            <span class="highlight-blue">Easy</span> Meal Solutions
+        </h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Scan Your Pantry</h3>
+                <p>Quickly add ingredients from your fridge, freezer, and pantry. Hearth automatically updates your inventory after every meal.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Get Personalized Recipes</h3>
+                <p>Hearth suggests recipes based on what you have and what you love to eat.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Cook with Confidence</h3>
+                <p>Follow step-by-step instructions tailored to your dietary needs and preferences.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <h3>Save Your Food, Money and Time</h3>
+                <p>Stop wasting groceries and reduce meal planning stress while eating better.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="signup-section" id="signup">
+        <h2 class="section-title">
+            Join the <span class="highlight-red">Waitlist</span>
+        </h2>
+        <p style="font-size: 18px; color: var(--text-secondary); margin-bottom: 20px;">
+            Be the first to know when Hearth launches. Get exclusive early access.
+        </p>
+        <form class="signup-form" id="signupForm">
+            <div class="form-group">
+                <input 
+                    type="text" 
+                    class="form-input name-input" 
+                    placeholder="Your Name" 
+                    name="name"
+                    required
+                >
+            </div>
+            <div class="form-group">
+                <input 
+                    type="email" 
+                    class="form-input email-input" 
+                    placeholder="Your Email" 
+                    name="email"
+                    required
+                >
+            </div>
+            <button type="submit" class="submit-button">
+                Join the Waitlist
+            </button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Hearth. Cook what you have.</p>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        
+        // Check for saved theme preference or default to dark mode
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        html.setAttribute('data-theme', currentTheme);
+        themeToggle.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
+
+        themeToggle.addEventListener('click', () => {
+            const theme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+        });
+
+        // Form Submission (placeholder - you'll connect this to your email service)
+        document.getElementById('signupForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const name = formData.get('name');
+            const email = formData.get('email');
+            
+            // TODO: Connect to Mailchimp/ConvertKit/Buttondown
+            console.log('Signup:', { name, email });
+            
+            // Temporary success message
+            alert(`Thanks ${name}! We'll send early access details to ${email}`);
+            e.target.reset();
+        });
+    </script>
+</body>
+</html>
