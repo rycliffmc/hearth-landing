@@ -553,13 +553,13 @@
         <p style="font-size: 18px; color: var(--text-secondary); margin-bottom: 20px;">
             Be the first to know when Hearth launches. Get exclusive early access.
         </p>
-        <form class="signup-form" id="signupForm">
+        <form class="signup-form" action="https://app.kit.com/forms/8706621/subscriptions" method="post">
             <div class="form-group">
                 <input 
                     type="text" 
                     class="form-input name-input" 
                     placeholder="Your Name" 
-                    name="name"
+                    name="fields[first_name]"
                     required
                 >
             </div>
@@ -568,7 +568,7 @@
                     type="email" 
                     class="form-input email-input" 
                     placeholder="Your Email" 
-                    name="email"
+                    name="email_address"
                     required
                 >
             </div>
@@ -597,21 +597,6 @@
             html.setAttribute('data-theme', theme);
             localStorage.setItem('theme', theme);
             themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
-        });
-
-        // Form Submission (placeholder - you'll connect this to your email service)
-        document.getElementById('signupForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const formData = new FormData(e.target);
-            const name = formData.get('name');
-            const email = formData.get('email');
-            
-            // TODO: Connect to Mailchimp/ConvertKit/Buttondown
-            console.log('Signup:', { name, email });
-            
-            // Temporary success message
-            alert(`Thanks ${name}! We'll send early access details to ${email}`);
-            e.target.reset();
         });
     </script>
 </body>
