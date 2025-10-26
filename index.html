@@ -631,11 +631,8 @@
                 const result = await response.json();
                 
                 if (result.result === 'success') {
-                    // Success message
-                    formMessage.style.display = 'block';
-                    formMessage.style.color = '#2ECC71';
-                    formMessage.textContent = `🎉 Thanks ${name}! You're on the waitlist!`;
-                    form.reset();
+                    // Redirect to success page
+                    window.location.href = 'success.html';
                 } else {
                     throw new Error(result.message);
                 }
@@ -646,7 +643,7 @@
                 formMessage.style.color = '#E85D75';
                 formMessage.textContent = '❌ Something went wrong. Please try again.';
                 console.error('Form submission error:', error);
-            } finally {
+                
                 // Re-enable button
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Join the Waitlist';
