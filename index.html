@@ -78,16 +78,48 @@
         /* Hero Section */
         .hero {
             padding: 100px 40px;
-            text-align: center;
-            max-width: 1000px;
+            max-width: 1400px;
             margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
         }
 
-        .hero h1 {
+        .hero-content {
+            text-align: left;
+        }
+
+        .hero-content h1 {
             font-size: 64px;
             font-weight: 800;
             margin-bottom: 30px;
             line-height: 1.2;
+        }
+
+        .hero-content p {
+            font-size: 24px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .hero-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            height: auto;
+            max-height: 700px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            transition: opacity 0.3s ease;
+        }
+
+        .hero-image img.hidden {
+            display: none;
         }
 
         .highlight-blue {
@@ -375,12 +407,26 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-            .hero h1 {
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                padding: 60px 20px;
+            }
+
+            .hero-content {
+                text-align: center;
+            }
+
+            .hero-content h1 {
                 font-size: 40px;
             }
 
-            .hero p {
+            .hero-content p {
                 font-size: 18px;
+            }
+
+            .hero-image img {
+                max-height: 500px;
             }
 
             .section-title {
@@ -445,18 +491,24 @@
     </nav>
 
     <section class="hero">
-        <h1>
-            Cook <span class="highlight-blue">What You Have</span>
-        </h1>
-        <p>
-            Stop wasting food. Start making <span class="highlight-orange">delicious meals</span> with the ingredients already in your kitchen.
-        </p>
-        <p style="font-weight: 700; margin-top: 20px;">
-            Hearth automatically tracks your inventory and updates after every meal.
-        </p>
-        <button class="cta-button" onclick="document.getElementById('signup').scrollIntoView({behavior: 'smooth'})">
-            Join the Waitlist
-        </button>
+        <div class="hero-content">
+            <h1>
+                Cook <span class="highlight-blue">What You Have</span>
+            </h1>
+            <p>
+                Stop wasting food. Start making <span class="highlight-orange">delicious meals</span> with the ingredients already in your kitchen.
+            </p>
+            <p style="font-weight: 700; margin-top: 20px;">
+                Hearth automatically tracks your inventory and updates after every meal.
+            </p>
+            <button class="cta-button" onclick="document.getElementById('signup').scrollIntoView({behavior: 'smooth'})">
+                Join the Waitlist
+            </button>
+        </div>
+        <div class="hero-image">
+            <img id="heroImageLight" src="hearth-app-light.png" alt="Hearth app inventory screen" class="hidden">
+            <img id="heroImageDark" src="hearth-app-dark.png" alt="Hearth app inventory screen">
+        </div>
     </section>
 
     <div class="stats-section">
@@ -587,17 +639,37 @@
         // Theme Toggle
         const themeToggle = document.getElementById('themeToggle');
         const html = document.documentElement;
+        const heroImageLight = document.getElementById('heroImageLight');
+        const heroImageDark = document.getElementById('heroImageDark');
         
         // Check for saved theme preference or default to dark mode
         const currentTheme = localStorage.getItem('theme') || 'dark';
         html.setAttribute('data-theme', currentTheme);
         themeToggle.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
+        
+        // Set initial hero image based on theme
+        if (currentTheme === 'dark') {
+            heroImageLight.classList.add('hidden');
+            heroImageDark.classList.remove('hidden');
+        } else {
+            heroImageLight.classList.remove('hidden');
+            heroImageDark.classList.add('hidden');
+        }
 
         themeToggle.addEventListener('click', () => {
             const theme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
             html.setAttribute('data-theme', theme);
             localStorage.setItem('theme', theme);
             themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+            
+            // Switch hero images
+            if (theme === 'dark') {
+                heroImageLight.classList.add('hidden');
+                heroImageDark.classList.remove('hidden');
+            } else {
+                heroImageLight.classList.remove('hidden');
+                heroImageDark.classList.add('hidden');
+            }
         });
 
         // Form Submission to Google Sheets
