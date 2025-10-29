@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hearth - Cook What You Have</title>
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3Y516MRRCL"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-3Y516MRRCL');
+    </script>
+    
     <style>
         * {
             margin: 0;
@@ -91,11 +101,11 @@
         }
 
         .hero-content h1 {
-    font-size: 56px;   /* Changed from 64px */
-    font-weight: 800;
-    margin-bottom: 30px;
-    line-height: 1.2;
-}
+            font-size: 64px;
+            font-weight: 800;
+            margin-bottom: 30px;
+            line-height: 1.2;
+        }
 
         .hero-content p {
             font-size: 24px;
@@ -398,6 +408,13 @@
             filter: brightness(1.1);
         }
 
+        /* Honeypot - hide from humans, bots will still fill it */
+        .honeypot {
+            position: absolute;
+            left: -9999px;
+            opacity: 0;
+        }
+
         /* Footer */
         footer {
             text-align: center;
@@ -506,7 +523,7 @@
     </nav>
 
     <section class="hero">
-<div class="hero-content">
+        <div class="hero-content">
             <h1>
                 Cook <span class="highlight-blue">What You Have</span>
             </h1>
@@ -521,9 +538,9 @@
             </button>
         </div>
         <div class="hero-image">
-            <img id="heroImageLight" src="hearth-app-light.webp" alt="Hearth app inventory screen" loading="lazy" class="hidden">
-            <img id="heroImageDark" src="hearth-app-dark.webp" alt="Hearth app inventory screen" loading="lazy">
-       </div>
+            <img id="heroImageLight" src="hearth-app-light.png" alt="Hearth app inventory screen" class="hidden">
+            <img id="heroImageDark" src="hearth-app-dark.png" alt="Hearth app inventory screen">
+        </div>
     </section>
 
     <div class="stats-section">
@@ -603,7 +620,7 @@
             <div class="step">
                 <div class="step-number">2</div>
                 <h3>Get AI-Powered Recipes</h3>
-                <p>Hearth uses Claude AI to create personalized meals from your exact inventory. Every recipe adapts to your dietary preferences, available appliances, and favorite cuisines. Whether you need one meal or a full week planned—no guessing, no extra grocery runs, just what you already have."</p>
+                <p>Hearth uses Claude AI to generate personalized meals from your exact inventory—no guessing, no extra grocery runs, just what you already have.</p>
             </div>
             <div class="step">
                 <div class="step-number">3</div>
@@ -612,8 +629,8 @@
             </div>
             <div class="step">
                 <div class="step-number">4</div>
-                <h3>Reduce Food Waste, Save Money, Live Healthier</h3>
-                <p>The average household of four wastes $2,900 on unused food annually. Hearth helps you track what you have, cut waste, and eat better.</p>
+                <h3>Save $2,900 a Year</h3>
+                <p>The average household wastes $2,900 on unused food annually. Hearth helps you use what you have, cutting waste and grocery bills significantly.</p>
             </div>
         </div>
     </section>
@@ -642,6 +659,16 @@
                     placeholder="Your Email" 
                     name="email"
                     required
+                >
+            </div>
+            <!-- Honeypot field - hidden from humans, bots will fill it -->
+            <div class="form-group honeypot">
+                <input 
+                    type="text" 
+                    name="website" 
+                    id="website"
+                    tabindex="-1" 
+                    autocomplete="off"
                 >
             </div>
             <button type="submit" class="submit-button" id="submitBtn">
@@ -733,6 +760,25 @@
         const submitBtn = document.getElementById('submitBtn');
         const formMessage = document.getElementById('formMessage');
         
+        // List of common disposable/temporary email domains
+        const disposableEmailDomains = [
+            'slclogin.com',
+            'tempmail.com',
+            'guerrillamail.com',
+            '10minutemail.com',
+            'throwaway.email',
+            'mailinator.com',
+            'maildrop.cc',
+            'trashmail.com',
+            'temp-mail.org',
+            'yopmail.com'
+        ];
+
+        function isDisposableEmail(email) {
+            const domain = email.split('@')[1]?.toLowerCase();
+            return disposableEmailDomains.includes(domain);
+        }
+        
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -740,6 +786,25 @@
             const formData = new FormData(form);
             const name = formData.get('name');
             const email = formData.get('email');
+            const honeypot = formData.get('website');
+            
+            // Honeypot check - if filled, it's a bot
+            if (honeypot) {
+                // Pretend it worked so bots think they succeeded
+                formMessage.style.display = 'block';
+                formMessage.style.color = '#2ECC71';
+                formMessage.textContent = '✓ Thanks for signing up!';
+                form.reset();
+                return;
+            }
+            
+            // Disposable email check
+            if (isDisposableEmail(email)) {
+                formMessage.style.display = 'block';
+                formMessage.style.color = '#E85D75';
+                formMessage.textContent = '❌ Please use a valid email address.';
+                return;
+            }
             
             // Disable button and show loading
             submitBtn.disabled = true;
@@ -759,6 +824,14 @@
                 const result = await response.json();
                 
                 if (result.result === 'success') {
+                    // Track signup event in Google Analytics
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'signup', {
+                            'event_category': 'waitlist',
+                            'event_label': 'email_signup'
+                        });
+                    }
+                    
                     // Redirect to success page
                     window.location.href = 'success.html';
                 } else {
