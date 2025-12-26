@@ -138,24 +138,19 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            position: relative;
-            min-height: 500px;
         }
 
-        .hero-image .carousel-slide {
+        .hero-image img {
             max-width: 100%;
             height: auto;
             max-height: 700px;
             border-radius: 30px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            position: absolute;
-            opacity: 0;
-            transition: opacity 0.8s ease-in-out;
+            transition: opacity 0.3s ease;
         }
 
-        .hero-image .carousel-slide.active {
-            opacity: 1;
-            position: relative;
+        .hero-image img.hidden {
+            display: none;
         }
 
         .highlight-blue {
@@ -590,19 +585,9 @@
                 Join the Waitlist
             </button>
         </div>
-        <div class="hero-image" id="screenshotCarousel">
-            <!-- Screenshot 1: Profile - first visible, load eagerly -->
-            <img data-light="Profilelight.png" data-dark="ProfileDark.png" alt="Hearth app profile screen" class="carousel-slide" loading="eager" decoding="async" fetchpriority="high" width="630" height="1285">
-            <!-- Screenshot 2: Dietary -->
-            <img data-light="Dietarylight.png" data-dark="DietaryDark.png" alt="Hearth app dietary preferences screen" class="carousel-slide" loading="lazy" decoding="async" width="630" height="1285">
-            <!-- Screenshot 3: Mealplan -->
-            <img data-light="MealplanLight.png" data-dark="MealplanDark.png" alt="Hearth app meal plan screen" class="carousel-slide" loading="lazy" decoding="async" width="630" height="1285">
-            <!-- Screenshot 4: AddInventory -->
-            <img data-light="AddInventoryLight.png" data-dark="AddInventoryDark.png" alt="Hearth app add inventory screen" class="carousel-slide" loading="lazy" decoding="async" width="630" height="1285">
-            <!-- Screenshot 5: Inventory -->
-            <img data-light="Inventorylight.webp" data-dark="InventoryDark.webp" alt="Hearth app inventory screen" class="carousel-slide" loading="lazy" decoding="async" width="630" height="1285">
-            <!-- Screenshot 6: BlankInventory -->
-            <img data-light="BlankInventoryLight.png" data-dark="BlankInventoryDark.png" alt="Hearth app empty inventory screen" class="carousel-slide" loading="lazy" decoding="async" width="630" height="1285">
+        <div class="hero-image">
+            <img id="heroImageLight" src="Inventorylight.webp" alt="Hearth app inventory screen" class="hidden">
+            <img id="heroImageDark" src="InventoryDark.webp" alt="Hearth app inventory screen">
         </div>
     </section>
 
@@ -767,48 +752,20 @@
         // Theme Toggle - theme already set inline in head to prevent FOUC
         const themeToggle = document.getElementById('themeToggle');
         const html = document.documentElement;
+        const heroImageLight = document.getElementById('heroImageLight');
+        const heroImageDark = document.getElementById('heroImageDark');
 
         // Set button icon based on current theme (already applied in head)
         themeToggle.textContent = html.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
 
-        // Screenshot Carousel
-        const carouselSlides = document.querySelectorAll('.carousel-slide');
-        let currentSlide = 0;
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-        // Function to get current theme
-        function getCurrentTheme() {
-            return html.getAttribute('data-theme') || 'dark';
-        }
-
-        // Function to update all slide images based on theme
-        function updateSlideImages() {
-            const theme = getCurrentTheme();
-            carouselSlides.forEach(slide => {
-                slide.src = theme === 'dark' ? slide.dataset.dark : slide.dataset.light;
-            });
-        }
-
-        // Function to show a specific slide
-        function showSlide(index) {
-            carouselSlides.forEach((slide, i) => {
-                slide.classList.toggle('active', i === index);
-            });
-        }
-
-        // Function to advance to next slide
-        function nextSlide() {
-            currentSlide = (currentSlide + 1) % carouselSlides.length;
-            showSlide(currentSlide);
-        }
-
-        // Initialize carousel
-        updateSlideImages();
-        showSlide(0);
-
-        // Auto-advance every 5 seconds (respect reduced motion preference)
-        if (!prefersReducedMotion) {
-            setInterval(nextSlide, 5000);
+        // Set initial hero image based on theme
+        const currentTheme = html.getAttribute('data-theme') || 'dark';
+        if (currentTheme === 'dark') {
+            heroImageLight.classList.add('hidden');
+            heroImageDark.classList.remove('hidden');
+        } else {
+            heroImageLight.classList.remove('hidden');
+            heroImageDark.classList.add('hidden');
         }
 
         themeToggle.addEventListener('click', () => {
@@ -817,8 +774,14 @@
             localStorage.setItem('theme', theme);
             themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
 
-            // Update carousel images for new theme
-            updateSlideImages();
+            // Switch hero images
+            if (theme === 'dark') {
+                heroImageLight.classList.add('hidden');
+                heroImageDark.classList.remove('hidden');
+            } else {
+                heroImageLight.classList.remove('hidden');
+                heroImageDark.classList.add('hidden');
+            }
         });
 
         // Form Submission to Google Sheets
