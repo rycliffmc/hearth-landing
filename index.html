@@ -4,7 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hearth - Save up to $2,900 a Year</title>
-    
+
+    <!-- Inline critical theme script to prevent FOUC -->
+    <script>
+        (function(){var t=localStorage.getItem('theme')||'dark';document.documentElement.setAttribute('data-theme',t)})();
+    </script>
+
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-3Y516MRRCL"></script>
     <script>
@@ -130,6 +135,16 @@
 
         .hero-image img.hidden {
             display: none;
+        }
+
+        /* Show correct image based on theme */
+        [data-theme="dark"] #heroImageLight,
+        [data-theme="light"] #heroImageDark {
+            display: none;
+        }
+        [data-theme="dark"] #heroImageDark,
+        [data-theme="light"] #heroImageLight {
+            display: block;
         }
 
         .highlight-blue {
