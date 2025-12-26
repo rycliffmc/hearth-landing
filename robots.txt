@@ -1,0 +1,11 @@
+# Robots.txt for Hearth
+# https://usehearth.app
+
+User-agent: *
+Allow: /
+
+# Disallow success page (confirmation page)
+Disallow: /success.html
+
+# Sitemap location
+Sitemap: https://usehearth.app/sitemap.xml
