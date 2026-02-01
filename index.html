@@ -555,6 +555,54 @@
                 transition: none;
             }
         }
+
+        /* Rotating headline styles */
+        .hero-headline {
+            position: relative;
+            min-height: 160px;
+        }
+
+        .headline-slide {
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            transition: opacity 0.8s ease-in-out;
+        }
+
+        .headline-slide.active {
+            opacity: 1;
+            position: relative;
+        }
+
+        .hero-tagline {
+            min-height: 120px;
+            position: relative;
+        }
+
+        .tagline-slide {
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            transition: opacity 0.8s ease-in-out;
+        }
+
+        .tagline-slide.active {
+            opacity: 1;
+            position: relative;
+        }
+
+        @media (max-width: 768px) {
+            .hero-headline {
+                min-height: 120px;
+            }
+            .hero-tagline {
+                min-height: 150px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -566,12 +614,40 @@
 
     <section class="hero">
         <div class="hero-content">
-            <h1>
-                Finally, a Kitchen That <span class="highlight-blue">Makes Sense</span>
-            </h1>
-            <p>
-                Hearth tracks what you have, suggests what to cook, and helps you use everything before it expires. <span class="highlight-orange">Less waste, less stress</span>, less "what's for dinner?" panic.
-            </p>
+            <div class="hero-headline">
+                <h1 class="headline-slide active" data-slide="0">
+                    Finally, a Kitchen That <span class="highlight-blue">Makes Sense</span>
+                </h1>
+                <h1 class="headline-slide" data-slide="1">
+                    End the <span class="highlight-red">"What's for Dinner?"</span> Panic
+                </h1>
+                <h1 class="headline-slide" data-slide="2">
+                    Your Kitchen, But <span class="highlight-blue">Smarter</span>
+                </h1>
+                <h1 class="headline-slide" data-slide="3">
+                    The <span class="highlight-orange">Mental Load</span> Problem
+                </h1>
+                <h1 class="headline-slide" data-slide="4">
+                    Make the Invisible <span class="highlight-blue">Visible</span>
+                </h1>
+            </div>
+            <div class="hero-tagline">
+                <p class="tagline-slide active" data-slide="0">
+                    Hearth tracks what you have, suggests what to cook, and helps you use everything before it expires. <span class="highlight-orange">Less waste, less stress</span>, less "what's for dinner?" panic.
+                </p>
+                <p class="tagline-slide" data-slide="1">
+                    Everyone deals with food waste and meal planning fatigue. Hearth gives you a system that actually works—using what you have, reducing what you waste, taking the mental load off your shoulders.
+                </p>
+                <p class="tagline-slide" data-slide="2">
+                    Stop relying on memory. Stop throwing money away. Stop feeling guilty about waste. Hearth is the <span class="highlight-orange">system you've needed</span> but never had.
+                </p>
+                <p class="tagline-slide" data-slide="3">
+                    Meal planning shouldn't feel like a second job. Hearth handles the invisible work—tracking, planning, suggesting—so you can <span class="highlight-orange">just cook and enjoy</span>.
+                </p>
+                <p class="tagline-slide" data-slide="4">
+                    You can't use what you can't remember. Hearth makes your entire inventory <span class="highlight-orange">visible, manageable, and actually useful</span>.
+                </p>
+            </div>
             <p style="font-weight: 700; margin-top: 20px;">
                 Your kitchen inventory, working as hard as you do.
             </p>
@@ -797,6 +873,31 @@
             return disposableEmailDomains.includes(domain);
         }
         
+        // Rotating Headlines
+        const headlines = document.querySelectorAll('.headline-slide');
+        const taglines = document.querySelectorAll('.tagline-slide');
+        let currentSlide = 0;
+        const totalSlides = headlines.length;
+        const rotationInterval = 8000; // 8 seconds
+
+        function rotateSlides() {
+            // Remove active class from current slides
+            headlines[currentSlide].classList.remove('active');
+            taglines[currentSlide].classList.remove('active');
+
+            // Move to next slide
+            currentSlide = (currentSlide + 1) % totalSlides;
+
+            // Add active class to new slides
+            headlines[currentSlide].classList.add('active');
+            taglines[currentSlide].classList.add('active');
+        }
+
+        // Start rotation (respects reduced motion preference)
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            setInterval(rotateSlides, rotationInterval);
+        }
+
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             
