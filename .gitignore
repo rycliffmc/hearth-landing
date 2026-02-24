@@ -1,1 +1,8 @@
+node_modules/
+dist/
+dist-ssr/
+*.local
+.vite/
+.DS_Store
 GEMINI.md
+legacy_html/
