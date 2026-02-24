@@ -54,11 +54,15 @@ export default function Philosophy({ onSignUpClick }) {
                     {renderWords("Most inventory apps make you conform to their rules.")}
                 </h2>
 
-                <h2 className="text-5xl md:text-6xl lg:text-8xl font-bold tracking-tight text-white leading-tight mt-4 max-w-4xl">
+                <h2 className="text-5xl md:text-6xl lg:text-8xl font-bold tracking-tight text-white leading-tight mt-4 max-w-4xl flex flex-wrap justify-center">
                     <span className="text-hearth-orange inline-block overflow-hidden pb-4 mr-[0.3em] font-bold align-bottom">
                         <span className="word-reveal inline-block">Hearth</span>
                     </span>
-                    {renderWords("conforms to your needs.")}
+                    {renderWords("conforms to")}
+                    <span className="text-hearth-orange inline-block overflow-hidden pb-4 mr-[0.3em] font-extrabold align-bottom">
+                        <span className="word-reveal inline-block">your</span>
+                    </span>
+                    {renderWords("needs.")}
                 </h2>
 
                 <div className="btn-reveal-container mt-12 flex flex-col md:flex-row gap-6 w-full max-w-md justify-center">
