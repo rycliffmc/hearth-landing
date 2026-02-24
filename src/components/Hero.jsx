@@ -75,7 +75,7 @@ export default function Hero() {
                     Intelligent inventory is the solution.
                 </h1>
                 <p className="hero-text opacity-0 translate-y-10 text-base sm:text-lg md:text-xl lg:text-2xl text-[var(--text-muted)] max-w-2xl mx-auto font-medium leading-relaxed">
-                    Other apps make you do the work.<br className="hidden md:block" /> <span className="bg-hearth-orange/20 text-hearth-orange/90 font-bold px-2 py-0.5 rounded">Hearth</span> tracks your kitchen for you.
+                    Other apps make you do the work.<br className="hidden md:block" /> <span className="bg-hearth-orange/20 text-hearth-orange/90 font-bold px-2 py-0.5 rounded">Hearth</span> automatically tracks your inventory and updates after every meal.
                 </p>
             </div>
 
