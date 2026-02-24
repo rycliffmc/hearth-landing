@@ -199,7 +199,7 @@ export default function Features() {
                 <div className="order-1 lg:order-2 flex flex-col gap-6">
                     <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight">Generate & Cook.</h2>
                     <p className="text-xl md:text-2xl text-[var(--text-muted)] leading-relaxed">
-                        Dietary restrictions? No problem. Hearth generates perfect meals based on <span className="text-white">exactly what is in your fridge</span> and your specific needs, and then automatically updates your inventory after cooking the meal.
+                        Dietary restrictions? No problem. Hearth generates perfect meals based on <span className="text-white">exactly what is in your kitchen</span> and your specific needs, and then automatically updates your inventory after cooking the meal.
                     </p>
                 </div>
             </section>
