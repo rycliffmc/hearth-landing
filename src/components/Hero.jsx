@@ -70,7 +70,7 @@ export default function Hero() {
             {/* Background ambient glow */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-hearth-orange/10 blur-[120px] rounded-full pointer-events-none z-0" aria-hidden="true"></div>
 
-            <div className="z-10 text-center pointer-events-none px-4 sm:px-6 mt-[-15vh] sm:mt-[-10vh]">
+            <div className="z-10 text-center pointer-events-none px-4 sm:px-6 mt-[-25vh] sm:mt-[-10vh]">
                 <h1 className="hero-text opacity-0 translate-y-10 font-bold text-5xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight mb-4 sm:mb-6 text-white max-w-4xl leading-tight">
                     Intelligent inventory is the solution.
                 </h1>
@@ -79,7 +79,7 @@ export default function Hero() {
                 </p>
             </div>
 
-            <div className="z-20 w-full max-w-5xl mx-auto grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6 px-4 absolute top-[65%] sm:top-[60%] left-1/2 -translate-x-1/2 mt-12 md:mt-0 perspective-1000" aria-hidden="true">
+            <div className="z-20 w-full max-w-5xl mx-auto grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6 px-4 absolute top-[50%] sm:top-[60%] left-1/2 -translate-x-1/2 mt-12 md:mt-0 perspective-1000" aria-hidden="true">
                 {INVENTORY_CARDS.map((card, i) => (
                     <div key={i} className={`inventory-card glass-panel rounded-2xl md:rounded-[2rem] p-3 sm:p-5 flex flex-col gap-2 md:gap-3 ${card.urgent ? 'border-hearth-orange/40 bg-hearth-orange/5' : ''}`}>
                         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 sm:gap-0">

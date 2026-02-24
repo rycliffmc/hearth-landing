@@ -142,7 +142,7 @@ export default function Features() {
 
             {/* Section 2: Generate & Cook */}
             <section className="feature-section grid lg:grid-cols-2 gap-10 md:gap-16 items-center">
-                <div className="order-2 lg:order-1 glass-panel p-4 sm:p-6 md:p-8 rounded-3xl md:rounded-[2.5rem] flex flex-col gap-4 md:gap-5 relative overflow-hidden h-[450px] sm:h-[500px] md:h-[550px] shadow-2xl border border-[var(--border-color)]">
+                <div className="order-2 lg:order-1 glass-panel p-4 sm:p-6 md:p-8 rounded-3xl md:rounded-[2.5rem] flex flex-col gap-4 md:gap-5 relative overflow-hidden h-auto min-h-[520px] pb-24 sm:pb-6 sm:h-[500px] md:h-[550px] shadow-2xl border border-[var(--border-color)]">
 
                     {/* User Prompt (Right aligned) */}
                     <div className="flex w-full justify-end z-10">
