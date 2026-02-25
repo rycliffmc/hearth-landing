@@ -98,10 +98,10 @@ export default function SignUpModal({ onClose }) {
                     <div className="flex flex-col items-center justify-center py-6 w-full animate-[fadeIn_0.5s_ease-out_forwards]">
                         <div className="text-6xl mb-6 drop-shadow-2xl translate-y-[-10px]">🎉</div>
                         <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white mb-4">
-                            You're <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">In!</span>
+                            You're On The <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">Beta List!</span>
                         </h2>
                         <p className="text-[16px] text-[var(--text-muted)] font-medium leading-relaxed max-w-[90%] mx-auto">
-                            Thanks for joining! We'll notify you as soon as Hearth launches.
+                            You'll receive an email when access opens Mid March
                         </p>
                     </div>
                 ) : (
