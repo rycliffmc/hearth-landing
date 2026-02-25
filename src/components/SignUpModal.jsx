@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import gsap from 'gsap';
-import { X, Loader } from 'lucide-react';
+import { X, Loader, ChevronDown } from 'lucide-react';
 
 const disposableEmailDomains = [
     'slclogin.com', 'tempmail.com', 'guerrillamail.com', '10minutemail.com',
@@ -11,6 +11,7 @@ const disposableEmailDomains = [
 export default function SignUpModal({ onClose }) {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
+    const [device, setDevice] = useState('');
     const [website, setWebsite] = useState(''); // Honeypot
     const [isSuccess, setIsSuccess] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -45,7 +46,7 @@ export default function SignUpModal({ onClose }) {
         if (website) {
             // Honeypot caught
             setIsSuccess(true);
-            setName(''); setEmail(''); setWebsite('');
+            setName(''); setEmail(''); setDevice(''); setWebsite('');
             setTimeout(() => handleClose(), 4000);
             return;
         }
@@ -62,6 +63,7 @@ export default function SignUpModal({ onClose }) {
             const formData = new URLSearchParams();
             formData.append('name', name);
             formData.append('email', email);
+            formData.append('device', device);
 
             const response = await fetch('https://script.google.com/macros/s/AKfycbw3wFcWHbh6JLE--82sNnQ_ga9XEfnfHrwmgO61OJUy9DV2P4Mbjae471XbFQ5eyNGDWw/exec', {
                 method: 'POST',
@@ -71,7 +73,7 @@ export default function SignUpModal({ onClose }) {
 
             if (result.result === 'success') {
                 setIsSuccess(true);
-                setName(''); setEmail('');
+                setName(''); setEmail(''); setDevice('');
                 // Close automatically after success
                 setTimeout(() => handleClose(), 4000);
             } else {
@@ -135,6 +137,24 @@ export default function SignUpModal({ onClose }) {
                                     required
                                     className="w-full px-5 py-4 bg-[#1C1C1E] border border-white/10 rounded-xl text-white placeholder-[var(--text-muted)] font-medium focus:outline-none focus:border-hearth-orange focus:ring-1 focus:ring-hearth-orange transition-all"
                                 />
+                            </div>
+
+                            <div className="w-full relative">
+                                <select
+                                    name="device"
+                                    value={device}
+                                    onChange={(e) => setDevice(e.target.value)}
+                                    required
+                                    className={`w-full px-5 py-4 bg-[#1C1C1E] border border-white/10 rounded-xl font-medium focus:outline-none focus:border-hearth-orange focus:ring-1 focus:ring-hearth-orange transition-all appearance-none cursor-pointer ${device === '' ? 'text-[var(--text-muted)]' : 'text-white'}`}
+                                >
+                                    <option value="" disabled hidden>Select your device</option>
+                                    <option value="iOS" className="text-white bg-[#1C1C1E]">iOS</option>
+                                    <option value="Android" className="text-white bg-[#1C1C1E]">Android</option>
+                                    <option value="Both" className="text-white bg-[#1C1C1E]">Both</option>
+                                </select>
+                                <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-[var(--text-muted)]">
+                                    <ChevronDown size={20} />
+                                </div>
                             </div>
 
                             {/* Honeypot */}
