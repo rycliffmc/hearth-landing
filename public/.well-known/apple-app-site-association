@@ -1,0 +1,14 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appIDs": ["UBJJ2R9RS3.com.hearthapp.app"],
+        "components": [
+          { "/": "/meal/*" },
+          { "/": "/recipe/*" }
+        ]
+      }
+    ]
+  }
+}
